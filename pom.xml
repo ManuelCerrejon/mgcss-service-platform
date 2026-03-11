@@ -28,8 +28,6 @@
 	</scm>
 	<properties>
  		<sonar.organization>manuelcerrejon</sonar.organization>
-	</properties>
-	<properties>
 		<java.version>17</java.version>
 	</properties>
 	<dependencies>
