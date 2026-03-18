@@ -7,6 +7,7 @@ public class Solicitud {
     private Long id;
     private String descripcion;
     private EstadoSolicitud estado;
+    private String short_description;
 
     public Solicitud() {
     }
@@ -40,4 +41,12 @@ public class Solicitud {
     public void setEstado(EstadoSolicitud estado) {
         this.estado = estado;
     }
+
+	public String getShort_description() {
+		return short_description;
+	}
+
+	public void setShort_description(String short_description) {
+		this.short_description = short_description;
+	}
 }
