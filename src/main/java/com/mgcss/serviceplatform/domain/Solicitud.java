@@ -2,6 +2,7 @@ package com.mgcss.serviceplatform.domain;
 
 import com.mgcss.serviceplatform.domain.enums.EstadoSolicitud;
 
+//Para forzar un cambio
 public class Solicitud {
 
     private Long id;
