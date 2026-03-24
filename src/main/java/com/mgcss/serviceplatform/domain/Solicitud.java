@@ -2,7 +2,6 @@ package com.mgcss.serviceplatform.domain;
 
 import com.mgcss.serviceplatform.domain.enums.EstadoSolicitud;
 
-//Para forzar un cambio
 public class Solicitud {
 
     private Long id;
@@ -18,6 +17,15 @@ public class Solicitud {
         this.estado = estado;
     }
 
+    public void cerrar() {
+        if (this.estado != EstadoSolicitud.EN_PROCESO) {
+            throw new IllegalStateException("No se puede cerrar si no está en proceso");
+        }
+        this.estado = EstadoSolicitud.CERRADA;
+    }    
+    
+    
+    
     public Long getId() {
         return id;
     }
