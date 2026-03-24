@@ -1,6 +1,6 @@
 package com.mgcss.serviceplatform.domain;
 
-import com.mgcss.serviceplatform.domain.enums.EstadoSolicitud;
+import com.mgcss.serviceplatform.domain.*;
 
 public class Solicitud {
 
@@ -18,10 +18,14 @@ public class Solicitud {
     }
 
     public void cerrar() {
-        if (this.estado != EstadoSolicitud.EN_PROCESO) {
-            throw new IllegalStateException("No se puede cerrar si no está en proceso");
-        }
+    	validarQueEstaEnProceso();
         this.estado = EstadoSolicitud.CERRADA;
+    }
+
+    private void validarQueEstaEnProceso() {
+        if (this.estado != EstadoSolicitud.EN_PROCESO) {
+            throw new IllegalStateException("Estado inválido para cierre");
+        }
     }    
     
     
@@ -46,7 +50,7 @@ public class Solicitud {
         return estado;
     }
 
-    public void setEstado(EstadoSolicitud estado) {
-        this.estado = estado;
+    public void setEstado(EstadoSolicitud nuevoEstado) {
+        this.estado = nuevoEstado;
     }
 }

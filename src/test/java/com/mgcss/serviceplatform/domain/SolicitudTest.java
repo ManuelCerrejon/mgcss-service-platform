@@ -8,7 +8,8 @@ public class SolicitudTest {
 
 		@Test
 		void noSePuedeCerrarSolicitudSiNoEstaEnProceso() {
-	        Solicitud solicitud = new Solicitud(Estado.ABIERTA);
+	        Solicitud solicitud = new Solicitud();
+	        solicitud.setEstado(EstadoSolicitud.ABIERTA);
 
 	        assertThrows(IllegalStateException.class, solicitud::cerrar);
 	    }
