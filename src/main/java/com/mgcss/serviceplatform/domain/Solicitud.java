@@ -7,7 +7,9 @@ public class Solicitud {
     private Long id;
     private String descripcion;
     private EstadoSolicitud estado;
-
+    private Tecnico tecnicoAsignado;
+ 
+    
     public Solicitud() {
     }
 
@@ -17,6 +19,34 @@ public class Solicitud {
         this.estado = estado;
     }
 
+    public void asignarTecnico(Tecnico tecnico) {
+        validarTecnicoAsignable(tecnico);
+        this.setTecnicoAsignado(tecnico);
+    }
+
+    private void validarTecnicoAsignable(Tecnico tecnico) {
+        if (tecnico == null) {
+            throw new IllegalArgumentException("El técnico no puede ser null");
+        }
+
+        if (!tecnico.estaActivo()) {
+            throw new IllegalArgumentException("No se puede asignar un técnico inactivo");
+        }
+    }
+    
+    public void cerrar() {
+    	validarQueEstaEnProceso();
+        this.estado = EstadoSolicitud.CERRADA;
+    }
+
+    private void validarQueEstaEnProceso() {
+        if (this.estado != EstadoSolicitud.EN_PROCESO) {
+            throw new IllegalStateException("Estado inválido para cierre");
+        }
+    }    
+    
+
+    
     public Long getId() {
         return id;
     }
@@ -37,7 +67,15 @@ public class Solicitud {
         return estado;
     }
 
-    public void setEstado(EstadoSolicitud estado) {
-        this.estado = estado;
+    public void setEstado(EstadoSolicitud nuevoEstado) {
+        this.estado = nuevoEstado;
     }
+
+	public Tecnico getTecnicoAsignado() {
+		return tecnicoAsignado;
+	}
+
+	public void setTecnicoAsignado(Tecnico tecnicoAsignado) {
+		this.tecnicoAsignado = tecnicoAsignado;
+	}
 }
