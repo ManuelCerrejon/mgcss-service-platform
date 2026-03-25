@@ -21,7 +21,7 @@ public class Solicitud {
 
     public void asignarTecnico(Tecnico tecnico) {
         validarTecnicoAsignable(tecnico);
-        this.tecnicoAsignado = tecnico;
+        this.setTecnicoAsignado(tecnico);
     }
 
     private void validarTecnicoAsignable(Tecnico tecnico) {
@@ -70,4 +70,12 @@ public class Solicitud {
     public void setEstado(EstadoSolicitud nuevoEstado) {
         this.estado = nuevoEstado;
     }
+
+	public Tecnico getTecnicoAsignado() {
+		return tecnicoAsignado;
+	}
+
+	public void setTecnicoAsignado(Tecnico tecnicoAsignado) {
+		this.tecnicoAsignado = tecnicoAsignado;
+	}
 }
