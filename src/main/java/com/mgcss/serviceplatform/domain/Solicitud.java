@@ -1,6 +1,6 @@
 package com.mgcss.serviceplatform.domain;
 
-import com.mgcss.serviceplatform.domain.*;
+import com.mgcss.serviceplatform.domain.enums.EstadoSolicitud;
 
 public class Solicitud {
 

@@ -2,6 +2,8 @@ package com.mgcss.serviceplatform.domain;
 
 import org.junit.jupiter.api.Test;
 
+import com.mgcss.serviceplatform.domain.enums.EstadoSolicitud;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class SolicitudTest {
