@@ -13,4 +13,17 @@ public class SolicitudTest {
 
 	        assertThrows(IllegalStateException.class, solicitud::cerrar);
 	    }
+		
+		@Test
+		void noSePuedeAsignarTecnicoInactivo() {
+		    // Arrange
+		    Tecnico tecnico = new Tecnico("Juan", false);
+		    Solicitud solicitud = new Solicitud();
+		    solicitud.setEstado(EstadoSolicitud.ABIERTA);
+
+		    // Act & Assert
+		    assertThrows(IllegalArgumentException.class, () -> {
+		        solicitud.asignarTecnico(tecnico);
+		    });
+		}
 }
