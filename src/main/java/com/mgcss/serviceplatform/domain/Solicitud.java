@@ -75,7 +75,7 @@ public class Solicitud {
 		return tecnicoAsignado;
 	}
 
-	public void setTecnicoAsignado(Tecnico tecnicoAsignado) {
+	private void setTecnicoAsignado(Tecnico tecnicoAsignado) {
 		this.tecnicoAsignado = tecnicoAsignado;
 	}
 }
