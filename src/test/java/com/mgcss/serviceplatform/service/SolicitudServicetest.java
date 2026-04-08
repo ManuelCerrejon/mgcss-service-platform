@@ -2,6 +2,7 @@ package com.mgcss.serviceplatform.service;
 
 import com.mgcss.serviceplatform.domain.Solicitud;
 import com.mgcss.serviceplatform.domain.SolicitudNoEncontradaException;
+import com.mgcss.serviceplatform.domain.Tecnico;
 import com.mgcss.serviceplatform.domain.enums.EstadoSolicitud;
 import com.mgcss.serviceplatform.infrastructure.SolicitudRepository;
 import org.junit.jupiter.api.Test;
@@ -88,18 +89,7 @@ class SolicitudServiceTest {
         assertEquals("Descripción válida", resultado.getDescripcion());
         verify(solicitudRepository, times(1)).save(any(Solicitud.class));
     }
-
-    @Test
-    void noDeberiaGuardarSolicitudSiDescripcionEstaVacia() {
-        IllegalArgumentException exception = assertThrows(
-                IllegalArgumentException.class,
-                () -> solicitudService.crearSolicitudSiDescripcionValida(1L, " ")
-        );
-
-        assertEquals("La descripción no puede estar vacía", exception.getMessage());
-
-        verify(solicitudRepository, never()).save(any(Solicitud.class));
-    }
+    
     @Test
     void noDeberiaInteractuarConRepositorioSiDescripcionEstaVacia() {
         IllegalArgumentException exception = assertThrows(
@@ -110,5 +100,45 @@ class SolicitudServiceTest {
         assertEquals("La descripción no puede estar vacía", exception.getMessage());
 
         verifyNoInteractions(solicitudRepository);
+    }
+    
+    @Test
+    void deberiaAsignarTecnicoValidoYGuardarSolicitudActualizada() {
+        Tecnico tecnico = new Tecnico("Ana", true);
+        Solicitud solicitud = new Solicitud(1L, "Incidencia", EstadoSolicitud.ABIERTA);
+
+        when(solicitudRepository.findById(1L)).thenReturn(Optional.of(solicitud));
+        when(solicitudRepository.save(any(Solicitud.class)))
+                .thenAnswer(invocation -> invocation.getArgument(0));
+
+        Solicitud resultado = solicitudService.asignarTecnico(1L, tecnico);
+
+        ArgumentCaptor<Solicitud> captor = ArgumentCaptor.forClass(Solicitud.class);
+        verify(solicitudRepository).findById(1L);
+        verify(solicitudRepository).save(captor.capture());
+
+        Solicitud solicitudGuardada = captor.getValue();
+
+        assertEquals(tecnico, solicitudGuardada.getTecnicoAsignado());
+        assertEquals(tecnico, resultado.getTecnicoAsignado());
+
+        verifyNoMoreInteractions(solicitudRepository);
+    }
+    
+    @Test
+    void deberiaLanzarExcepcionSiSolicitudNoExisteAlAsignarTecnico() {
+        Tecnico tecnico = new Tecnico("Ana", true);
+
+        when(solicitudRepository.findById(99L)).thenReturn(Optional.empty());
+
+        SolicitudNoEncontradaException exception = assertThrows(
+                SolicitudNoEncontradaException.class,
+                () -> solicitudService.asignarTecnico(99L, tecnico)
+        );
+
+        assertEquals("Solicitud no encontrada con id: 99", exception.getMessage());
+
+        verify(solicitudRepository).findById(99L);
+        verifyNoMoreInteractions(solicitudRepository);
     }
 }

@@ -2,6 +2,7 @@ package com.mgcss.serviceplatform.service;
 
 import com.mgcss.serviceplatform.domain.Solicitud;
 import com.mgcss.serviceplatform.domain.SolicitudNoEncontradaException;
+import com.mgcss.serviceplatform.domain.Tecnico;
 import com.mgcss.serviceplatform.domain.enums.EstadoSolicitud;
 import com.mgcss.serviceplatform.infrastructure.SolicitudRepository;
 
@@ -32,5 +33,12 @@ public class SolicitudService {
         return solicitudRepository.save(solicitud);
     }
     
-    
+    public Solicitud asignarTecnico(Long solicitudId, Tecnico tecnico) {
+        Solicitud solicitud = solicitudRepository.findById(solicitudId)
+                .orElseThrow(() -> new SolicitudNoEncontradaException("Solicitud no encontrada con id: " + solicitudId));
+
+        solicitud.asignarTecnico(tecnico);
+
+        return solicitudRepository.save(solicitud);
+    }
 }
