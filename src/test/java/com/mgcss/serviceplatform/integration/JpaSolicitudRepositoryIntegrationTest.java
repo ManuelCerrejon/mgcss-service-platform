@@ -33,4 +33,20 @@ class JpaSolicitudRepositoryIntegrationTest {
         assertEquals("Solicitud persistida", recuperada.get().getDescripcion());
         assertEquals(EstadoSolicitud.ABIERTA, recuperada.get().getEstado());
     }
+    
+    @Test
+    void deberiaGuardarEntidadUsandoSetters() {
+        SolicitudEntity entity = new SolicitudEntity();
+
+        entity.setId(2L);
+        entity.setDescripcion("Usando setters");
+        entity.setEstado(EstadoSolicitud.ABIERTA);
+
+        jpaSolicitudRepository.save(entity);
+
+        Optional<SolicitudEntity> recuperada = jpaSolicitudRepository.findById(2L);
+
+        assertTrue(recuperada.isPresent());
+        assertEquals("Usando setters", recuperada.get().getDescripcion());
+    }
 }
