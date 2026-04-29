@@ -1,11 +1,14 @@
 package com.mgcss.serviceplatform.service;
 
+import org.springframework.stereotype.Service;
+import java.util.List;
 import com.mgcss.serviceplatform.domain.Solicitud;
 import com.mgcss.serviceplatform.domain.SolicitudNoEncontradaException;
 import com.mgcss.serviceplatform.domain.Tecnico;
 import com.mgcss.serviceplatform.domain.enums.EstadoSolicitud;
 import com.mgcss.serviceplatform.infrastructure.SolicitudRepository;
 
+@Service
 public class SolicitudService {
 
     private final SolicitudRepository solicitudRepository;
@@ -40,5 +43,26 @@ public class SolicitudService {
         solicitud.asignarTecnico(tecnico);
 
         return solicitudRepository.save(solicitud);
+    }
+    
+    public Solicitud cambiarEstado(Long solicitudId, EstadoSolicitud nuevoEstado) {
+        Solicitud solicitud = obtenerSolicitud(solicitudId);
+        solicitud.setEstado(nuevoEstado);
+        return solicitudRepository.save(solicitud);
+    }
+
+    public Solicitud reabrirSolicitud(Long solicitudId) {
+        Solicitud solicitud = obtenerSolicitud(solicitudId);
+
+        if (solicitud.getEstado() != EstadoSolicitud.CERRADA) {
+            throw new IllegalStateException("Solo se pueden reabrir solicitudes cerradas");
+        }
+
+        solicitud.setEstado(EstadoSolicitud.ABIERTA);
+        return solicitudRepository.save(solicitud);
+    }
+
+    public List<Solicitud> listarSolicitudes() {
+        return solicitudRepository.findAll();
     }
 }

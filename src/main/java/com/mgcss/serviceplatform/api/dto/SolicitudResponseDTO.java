@@ -1,30 +1,22 @@
-package com.mgcss.serviceplatform.infrastructure.persistence;
+package com.mgcss.serviceplatform.api.dto;
 
 import com.mgcss.serviceplatform.domain.enums.EstadoSolicitud;
-import jakarta.persistence.*;
 
-@Entity
-@Table(name = "solicitudes")
-public class SolicitudEntity {
+public class SolicitudResponseDTO {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-
-    @Column(nullable = false)
+    private Long id;
     private String descripcion;
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private EstadoSolicitud estado;
+    private String tecnicoAsignado;
 
-    public SolicitudEntity() {
+    public SolicitudResponseDTO() {
     }
 
-    public SolicitudEntity(Long id, String descripcion, EstadoSolicitud estado) {
+    public SolicitudResponseDTO(Long id, String descripcion, EstadoSolicitud estado, String tecnicoAsignado) {
         this.id = id;
         this.descripcion = descripcion;
         this.estado = estado;
+        this.tecnicoAsignado = tecnicoAsignado;
     }
 
     public Long getId() {
@@ -39,6 +31,10 @@ public class SolicitudEntity {
         return estado;
     }
 
+    public String getTecnicoAsignado() {
+        return tecnicoAsignado;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -49,5 +45,9 @@ public class SolicitudEntity {
 
     public void setEstado(EstadoSolicitud estado) {
         this.estado = estado;
+    }
+
+    public void setTecnicoAsignado(String tecnicoAsignado) {
+        this.tecnicoAsignado = tecnicoAsignado;
     }
 }

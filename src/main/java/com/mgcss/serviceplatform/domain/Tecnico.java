@@ -12,4 +12,8 @@ public class Tecnico {
     public boolean estaActivo() {
         return activo;
     }
+    
+    public String getNombre() {
+        return nombre;
+    }
 }
