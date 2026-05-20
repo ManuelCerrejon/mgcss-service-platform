@@ -41,3 +41,5 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
+      - name: Debug
+        run: echo "Disparado por el tag ${{ github.ref_name }}
